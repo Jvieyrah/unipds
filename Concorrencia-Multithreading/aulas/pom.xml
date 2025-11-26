@@ -1,17 +1,78 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.eldermoraes</groupId>
     <artifactId>aulas</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <!-- ESTA TAG GARANTE QUE O ARTEFATO SERÁ UM ARQUIVO JAR -->
+    <packaging>jar</packaging>
+
     <properties>
-        <maven.compiler.source>24</maven.compiler.source>
-        <maven.compiler.target>24</maven.compiler.target>
+        <!-- Mantendo a versão 21 que você definiu agora -->
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
+    <!-- Dependências (Adicione as suas aqui) -->
+    <dependencies>
+        <!-- Exemplo: dependência de teste -->
+        <!-- Se você não tiver dependências de teste, pode remover esta seção -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.10.0</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <!-- SEÇÃO CRÍTICA ADICIONADA: Configurações de Build -->
+    <build>
+        <plugins>
+            <!-- 1. Configura o Compilador (Garantindo Java 21) -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.13.0</version>
+            </plugin>
+
+            <!-- 2. Configura o Plugin do JAR para torná-lo executável -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.3.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <!-- ****** SUBSTITUA ESTE VALOR PELO NOME COMPLETO DA SUA CLASSE PRINCIPAL ****** -->
+                            <mainClass>com.eldermoraes.aulas.MainApplication</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+
+            <!-- 3. Plugin de Shading (Recomendado para apps sem Spring) -->
+            <!-- Se o seu projeto tiver dependências, este plugin cria um "uber-jar"
+                 que contém TUDO, tornando o JAR executável por 'java -jar' mais fácil.
+                 Se for um projeto simples sem libs externas, pode ignorar este plugin. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.5.2</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
 
 </project>
